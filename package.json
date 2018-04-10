@@ -1,0 +1,27 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dmitry Shikunov <dshikunov@outlook.com> (https://github.com/dmix90)",
+  "license": "MIT",
+  "scripts": {
+    "initialize": "(yarn install) && (cd ./client && yarn install) && (cd ../server && yarn install) && (cd ../dist && yarn install)",
+    "server": "cd ./dist && yarn server",
+    "server_prerender": "cd ./dist && yarn server_pre",
+    "dev_client": "cd ./client && ng serve",
+    "dev_server": "cd ./server && yarn serve",
+    "build_client": "cd ./client && ng build --prod --output-hashing=none --output-path=../dist/client --stats-json",
+    "build_client_github": "cd ./client && yarn build_gh",
+    "build_server": "cd ./server && tsc --sourceMap false --lib esnext",
+    "prerender": "cd ./dist/ && yarn prerender",
+    "dev": "concurrently --kill-others \"yarn dev_client\" \"yarn dev_server\"",
+    "build": "yarn build_server && yarn build_client",
+    "build_prerender": "yarn build_server && yarn build_client && yarn prerender",
+    "production": "yarn build && yarn server",
+    "production_pre": "yarn build_prerender && yarn server_prerender",
+    "analyse": "cd ./dist && yarn analyse"
+  },
+  "dependencies": {
+    "concurrently": "^3.5.1"
+  }
+}

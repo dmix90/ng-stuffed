@@ -1,0 +1,33 @@
+{
+  "name": "dist",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dmitry Shikunov <dshikunov@outlook.com> (https://github.com/dmix90)",
+  "license": "MIT",
+  "scripts": {
+    "prerender": "set NODE_ENV=production && node prerender",
+    "server": "set NODE_ENV=production && node -r tsconfig-paths/register ./server/server.js",
+    "server_pre": "set NODE_ENV=prerender && node -r tsconfig-paths/register ./server/server.js",
+    "analyse": "webpack-bundle-analyzer ./client/stats.json"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "graphql": "^0.13.2",
+    "html-minifier": "^3.5.14",
+    "pg": "^7.4.1",
+    "reflect-metadata": "^0.1.12",
+    "serve-favicon": "^2.5.0",
+    "spdy": "^3.4.7",
+    "tsconfig-paths": "^3.2.0",
+    "typeorm": "^0.1.20"
+  },
+  "devDependencies": {
+    "path": "^0.12.7",
+    "puppeteer": "^1.2.0",
+    "webpack-bundle-analyzer": "^2.11.1"
+  }
+}
