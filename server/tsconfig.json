@@ -47,6 +47,9 @@
             ],
             "@seeds/*": [
                 "data/seed/seeds/*"
+            ],
+            "@routes/*": [
+                "routes/*"
             ]
         }
     },

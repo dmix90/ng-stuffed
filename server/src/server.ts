@@ -4,12 +4,13 @@ import * as bodyParser from 'body-parser';
 import * as graphqlHTTP from 'express-graphql';
 import * as cors from 'cors';
 import * as compression from 'compression';
+import * as path from 'path';
+import * as favicon from 'serve-favicon';
 import { readFileSync } from 'fs';
 import { createServer } from 'spdy';
 import { createConnection } from 'typeorm';
 import schema from '@data/schema';
-import * as path from 'path';
-import * as favicon from 'serve-favicon';
+import prerenderRoutes from '@routes/prerender';
 
 const environment = process.env.NODE_ENV.trim();
 
@@ -19,7 +20,7 @@ const bootstrap = async () => {
             console.log(`:::Succcessfully connected to the ${res.options.type} <${res.options.database}> database:::`);
         }
     }).catch(err => {
-        console.log(`:::Database error::: -> ${err}`);
+        console.log(`:::Database error -> ${err} :::`);
     })
 
     const port = process.env.PORT || 80;
@@ -36,12 +37,7 @@ const bootstrap = async () => {
 
     httpServer.use(compression());
     httpServer.get('*', (req, res, next) => {
-        if (req.secure) {
-            next();
-        }
-        else {
-            res.redirect('https://' + req.headers.host + req.url);
-        }
+        req.secure ? next() : res.redirect('https://' + req.headers.host + req.url);
     })
 
     httpsServer.use(bodyParser.json());
@@ -53,14 +49,7 @@ const bootstrap = async () => {
         graphiql: true,
     }))
 
-    if (environment === 'prerender') {
-        httpsServer.get('/', (req, res) => {
-            res.sendFile('index.html', { root: 'client/' });
-        })
-        httpsServer.get('/about', (req, res) => {
-            res.sendFile('about.html', { root: 'client/' });
-        })
-    }
+    environment === 'prerender' ? httpsServer.use('/', prerenderRoutes) : null;
 
     const http2Server = createServer(httpsOptions, httpsServer);
 

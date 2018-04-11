@@ -3,8 +3,6 @@ https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-developme
 https://success.outsystems.com/Support/Enterprise_Customers/Installation/Install_a_trusted_root_CA__or_self-signed_certificate
 
 
-
-
 for firefox : openssl pkcs12 -export -in server.crt -inkey server.key -out server.p12
 
 
